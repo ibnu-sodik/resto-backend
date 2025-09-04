@@ -483,7 +483,7 @@
                         "description": "Unauthenticated"
                     },
                     "403": {
-                        "description": "User tidak memiliki akses untuk menambahkan data"
+                        "description": "User tidak memiliki akses untuk mengupdate data"
                     },
                     "404": {
                         "description": "Data tidak ditemukan"
@@ -521,7 +521,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Makanan berhasil dihapus"
+                        "description": "Data berhasil dihapus"
                     },
                     "401": {
                         "description": "Unauthenticated"
@@ -530,7 +530,378 @@
                         "description": "User tidak memiliki akses untuk menambahkan data"
                     },
                     "404": {
-                        "description": "Makanan tidak ditemukan"
+                        "description": "Data tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/tables": {
+            "get": {
+                "tags": [
+                    "TablesController"
+                ],
+                "summary": "Get all meja",
+                "description": "Mengambil semua daftar meja yang tersedia. (hanya user dengan role pelayan)",
+                "operationId": "2023ca93f31594b1d66cf177b516849c",
+                "responses": {
+                    "200": {
+                        "description": "Daftar meja berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Daftar meja"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "uuid-123"
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "T01"
+                                                    },
+                                                    "capacity": {
+                                                        "type": "number",
+                                                        "example": 2
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "available",
+                                                            "occupied",
+                                                            "reserved",
+                                                            "inactive"
+                                                        ],
+                                                        "example": "available"
+                                                    },
+                                                    "order_by": {
+                                                        "type": "string",
+                                                        "example": "Ibnu"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk mengambil data"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "TablesController"
+                ],
+                "summary": "Add data meja",
+                "description": "Menambahkan data meja baru. (hanya user dengan role pelayan)",
+                "operationId": "7ad4cd81364a0151cb01fd1ae49f872d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "example": "T01"
+                                    },
+                                    "capacity": {
+                                        "type": "integer",
+                                        "example": 4
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "available"
+                                        ],
+                                        "example": "available"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data berhasil disimpan"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk menambahkan data"
+                    },
+                    "409": {
+                        "description": "Data sudah ada"
+                    },
+                    "422": {
+                        "description": "Validasi gagal"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/tables/{id}": {
+            "get": {
+                "tags": [
+                    "TablesController"
+                ],
+                "summary": "Detail meja",
+                "description": "Mengambil detail meja berdasarkan id. (hanya user dengan role pelayan)",
+                "operationId": "d31eaef2d49119d97de53282e61a3382",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID tables",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail data meja berhasil diambil"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk menambahkan data"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "TablesController"
+                ],
+                "summary": "Update data meja",
+                "description": "Memperbarui data meja berdasarkan ID. Hanya user dengan role pelayan yang dapat melakukan ini. Meja dengan status 'reserved' tidak dapat diubah.",
+                "operationId": "c6a84f477d28d3d8eb1301130527f167",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID meja",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "example": "T01"
+                                    },
+                                    "capacity": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "example": 4
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "available",
+                                            "inactive"
+                                        ],
+                                        "example": "available"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data berhasil diperbarui"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk mengupdate data"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    },
+                    "409": {
+                        "description": "Data tidak dapat diperbarui karena status 'reserved' atau kode meja sudah digunakan"
+                    },
+                    "422": {
+                        "description": "Validasi gagal"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/tables/${id}": {
+            "delete": {
+                "tags": [
+                    "TablesController"
+                ],
+                "summary": "Delete meja",
+                "description": "Hapus data meja berdasarkan id. (hanya user dengan role pelayan)",
+                "operationId": "16030e198797b7f19cc6658783a05fd0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID tables",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data berhasil dihapus"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk menambahkan data"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    },
+                    "409": {
+                        "description": "Meja tidak bisa dihapus."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/tables/{id}/reservation": {
+            "post": {
+                "tags": [
+                    "TablesController"
+                ],
+                "summary": "Reservasi meja",
+                "description": "Melakukan reservasi pada meja yang tersedia. Hanya user dengan role pelayan yang dapat mengakses endpoint ini.",
+                "operationId": "a0ae544d16d95e2dd691338e834ae101",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID meja yang ingin direservasi",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "order_by"
+                                ],
+                                "properties": {
+                                    "order_by": {
+                                        "type": "string",
+                                        "example": "Budi Santoso"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reservasi berhasil dilakukan"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk melakukan reservasi"
+                    },
+                    "404": {
+                        "description": "Data meja tidak ditemukan"
+                    },
+                    "409": {
+                        "description": "Meja tidak bisa direservasi."
+                    },
+                    "422": {
+                        "description": "Validasi gagal (order_by tidak valid)"
                     }
                 },
                 "security": [
@@ -558,6 +929,10 @@
         {
             "name": "FoodsController",
             "description": "FoodsController"
+        },
+        {
+            "name": "TablesController",
+            "description": "TablesController"
         }
     ]
 }

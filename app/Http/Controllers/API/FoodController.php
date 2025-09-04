@@ -128,7 +128,7 @@ class FoodController extends Controller
      * )
      */
 
-    public function show(Request $request, $id)
+    public function show(Request $request, string $id)
     {
         $user = $request->user();
         if ($user->role !== 'pelayan') {
@@ -169,13 +169,13 @@ class FoodController extends Controller
      *     ),
      *     @OA\Response(response=200, description="Data berhasil diperbarui"),
      *     @OA\Response(response=401, description="Unauthenticated"),
-     *     @OA\Response(response=403, description="User tidak memiliki akses untuk menambahkan data"),
+     *     @OA\Response(response=403, description="User tidak memiliki akses untuk mengupdate data"),
      *     @OA\Response(response=404, description="Data tidak ditemukan"),
      *     @OA\Response(response=422, description="Validasi gagal"),
      * )
      */
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
         $user = $request->user();
         if ($user->role !== 'pelayan') {
@@ -225,13 +225,13 @@ class FoodController extends Controller
      *          description="UUID foods",
      *          @OA\Schema(type="string", format="uuid")
      *      ),
-     *      @OA\Response(response=200, description="Makanan berhasil dihapus"),
+     *      @OA\Response(response=200, description="Data berhasil dihapus"),
      *      @OA\Response(response=401, description="Unauthenticated"),
      *      @OA\Response(response=403, description="User tidak memiliki akses untuk menambahkan data"),
-     *      @OA\Response(response=404, description="Makanan tidak ditemukan"),
+     *      @OA\Response(response=404, description="Data tidak ditemukan"),
      * )
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, string $id)
     {
         $user = $request->user();
         if ($user->role !== 'pelayan') {
