@@ -254,7 +254,6 @@ class TablesController extends Controller
      *     summary="Reservasi meja",
      *     description="Melakukan reservasi pada meja yang tersedia. Hanya user dengan role pelayan yang dapat mengakses endpoint ini.",
      *     security={{"bearerAuth":{}}},
-     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -262,21 +261,19 @@ class TablesController extends Controller
      *         description="UUID meja yang ingin direservasi",
      *         @OA\Schema(type="string", format="uuid")
      *     ),
-     *
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"order_by"},
-     *             @OA\Property(property="order_by", type="string", example="Budi Santoso")
+     *             required={"reserved_by"},
+     *             @OA\Property(property="reserved_by", type="string", example="Budi Santoso")
      *         )
      *     ),
-     *
      *     @OA\Response(response=200, description="Reservasi berhasil dilakukan"),
      *     @OA\Response(response=401, description="Unauthenticated"),
      *     @OA\Response(response=403, description="User tidak memiliki akses untuk melakukan reservasi"),
      *     @OA\Response(response=404, description="Data meja tidak ditemukan"),
      *     @OA\Response(response=409, description="Meja tidak bisa direservasi."),
-     *     @OA\Response(response=422, description="Validasi gagal (order_by tidak valid)")
+     *     @OA\Response(response=422, description="Validasi gagal")
      * )
      */
 
@@ -298,12 +295,12 @@ class TablesController extends Controller
         }
 
         $validated = $request->validate([
-            'order_by' => 'required|string|max:100',
+            'reserved_by' => 'required|string|max:100',
         ]);
 
         $tables->update([
             'status'   => 'reserved',
-            'order_by' => $validated['order_by'],
+            'reserved_by' => $validated['reserved_by'],
         ]);
 
         $message = 'Meja ' . strtoupper($tables->code) . ' berhasil direservasi.';

@@ -15,7 +15,8 @@ class Tables extends Model
     protected $fillable = [
         'code',
         'capacity',
-        'status'
+        'status',
+        'reserved_by'
     ];
 
     protected static function boot()
