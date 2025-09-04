@@ -15,7 +15,7 @@
         "/login": {
             "post": {
                 "tags": [
-                    "Auth"
+                    "AuthController"
                 ],
                 "summary": "Login user",
                 "description": "Login user dengan email dan password untuk mendapatkan API token",
@@ -114,7 +114,7 @@
         "/profile": {
             "get": {
                 "tags": [
-                    "Auth"
+                    "AuthController"
                 ],
                 "summary": "Get user profile",
                 "description": "Mengambil data profile user berdasarkan token login (auth:sanctum required)",
@@ -179,7 +179,7 @@
         "/logout": {
             "post": {
                 "tags": [
-                    "Auth"
+                    "AuthController"
                 ],
                 "summary": "Logout user",
                 "description": "Menghapus token akses user sehingga tidak bisa dipakai lagi (auth:sanctum required)",
@@ -219,6 +219,326 @@
                     }
                 ]
             }
+        },
+        "/foods": {
+            "get": {
+                "tags": [
+                    "FoodsController"
+                ],
+                "summary": "Get all foods",
+                "description": "Mengambil semua daftar foods yang tersedia. (hanya user dengan role pelayan)",
+                "operationId": "24f4c6639c1d6acbd982b5854213dc9c",
+                "responses": {
+                    "200": {
+                        "description": "Daftar foods berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Daftar foods"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "uuid-123"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Nasi Goreng"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Nasi goreng dengan ayam"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 25000
+                                                    },
+                                                    "category": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "food",
+                                                            "drink",
+                                                            "snack"
+                                                        ],
+                                                        "example": "food"
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk mengambil data"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "FoodsController"
+                ],
+                "summary": "Add data foods",
+                "description": "Menambahkan data foods baru. (hanya user dengan role pelayan)",
+                "operationId": "47fb464d3147bb08b40bc2cdcb5ff021",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "category"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Nama foods"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Deskripsi foods"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 20000
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "enum": [
+                                            "food",
+                                            "drink",
+                                            "snack"
+                                        ],
+                                        "example": "food"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data berhasil disimpan"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk menambahkan data"
+                    },
+                    "409": {
+                        "description": "Data foods dengan nama, harga, dan kategori yang sama sudah ada"
+                    },
+                    "422": {
+                        "description": "Validasi gagal"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/foods/{id}": {
+            "get": {
+                "tags": [
+                    "FoodsController"
+                ],
+                "summary": "Detail foods",
+                "description": "Mengambil detail foods berdasarkan id. (hanya user dengan role pelayan)",
+                "operationId": "31c172cf89934677906c196f74db43d4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID foods",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail data foods berhasil diambil"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk menambahkan data"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "FoodsController"
+                ],
+                "summary": "Update foods",
+                "description": "Memperbarui data foods berdasarkan id. (hanya user dengan role pelayan)",
+                "operationId": "5010343dcd8e7a8d103461352ab2f9b6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID foods",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Nama foods"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Deskripsi foods"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 20000
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "enum": [
+                                            "food",
+                                            "drink",
+                                            "snack"
+                                        ],
+                                        "example": "food"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data berhasil diperbarui"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk menambahkan data"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    },
+                    "422": {
+                        "description": "Validasi gagal"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/foods/${id}": {
+            "delete": {
+                "tags": [
+                    "FoodsController"
+                ],
+                "summary": "Delete foods",
+                "description": "Hapus data foods berdasarkan id. (hanya user dengan role pelayan)",
+                "operationId": "92dd39e18c15acae0c11e0cfdbfb0c8b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID foods",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Makanan berhasil dihapus"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk menambahkan data"
+                    },
+                    "404": {
+                        "description": "Makanan tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -232,8 +552,12 @@
     },
     "tags": [
         {
-            "name": "Auth",
-            "description": "Auth"
+            "name": "AuthController",
+            "description": "AuthController"
+        },
+        {
+            "name": "FoodsController",
+            "description": "FoodsController"
         }
     ]
 }
