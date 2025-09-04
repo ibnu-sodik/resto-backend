@@ -540,13 +540,65 @@
                 ]
             }
         },
+        "/orders/open": {
+            "post": {
+                "tags": [
+                    "OrdersController"
+                ],
+                "summary": "Membuka order baru",
+                "description": "Membuka order baru di meja yang masih kosong (status=available). Hanya bisa dilakukan jika meja belum ada order open. Hanya bisa dilakukan oleh pelayan.",
+                "operationId": "d9ff610f1d834351153c85b456ca5283",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "table_id"
+                                ],
+                                "properties": {
+                                    "table_id": {
+                                        "type": "string",
+                                        "format": "uuid",
+                                        "example": "UUID tables"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order berhasil dibuka"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses untuk menambahkan data"
+                    },
+                    "409": {
+                        "description": "Meja sudah terpakai atau sudah ada order open"
+                    },
+                    "422": {
+                        "description": "Validasi gagal"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/tables": {
             "get": {
                 "tags": [
                     "TablesController"
                 ],
                 "summary": "Get all meja",
-                "description": "Mengambil semua daftar meja yang tersedia. (hanya user dengan role pelayan)",
+                "description": "Mengambil semua daftar meja yang tersedia.",
                 "operationId": "2023ca93f31594b1d66cf177b516849c",
                 "responses": {
                     "200": {
@@ -606,19 +658,8 @@
                                 }
                             }
                         }
-                    },
-                    "401": {
-                        "description": "Unauthenticated"
-                    },
-                    "403": {
-                        "description": "User tidak memiliki akses untuk mengambil data"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -871,10 +912,10 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "order_by"
+                                    "reserved_by"
                                 ],
                                 "properties": {
-                                    "order_by": {
+                                    "reserved_by": {
                                         "type": "string",
                                         "example": "Budi Santoso"
                                     }
@@ -901,7 +942,7 @@
                         "description": "Meja tidak bisa direservasi."
                     },
                     "422": {
-                        "description": "Validasi gagal (order_by tidak valid)"
+                        "description": "Validasi gagal"
                     }
                 },
                 "security": [
@@ -929,6 +970,10 @@
         {
             "name": "FoodsController",
             "description": "FoodsController"
+        },
+        {
+            "name": "OrdersController",
+            "description": "OrdersController"
         },
         {
             "name": "TablesController",
