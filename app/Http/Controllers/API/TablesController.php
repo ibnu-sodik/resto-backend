@@ -14,8 +14,7 @@ class TablesController extends Controller
      *     path="/tables",
      *     tags={"TablesController"},
      *     summary="Get all meja",
-     *     description="Mengambil semua daftar meja yang tersedia. (hanya user dengan role pelayan)",
-     *     security={{"bearerAuth":{}}},
+     *     description="Mengambil semua daftar meja yang tersedia.",
      *     @OA\Response(
      *         response=200,
      *         description="Daftar meja berhasil diambil",
@@ -36,17 +35,10 @@ class TablesController extends Controller
      *             )
      *         )
      *     ),
-     *     @OA\Response(response=401, description="Unauthenticated"),
-     *     @OA\Response(response=403, description="User tidak memiliki akses untuk mengambil data"),
      * )
      */
     public function index(Request $request)
     {
-        $user = $request->user();
-        if ($user->role !== 'pelayan') {
-            return ApiResponse::error('Anda tidak memiliki akses untuk mengambil data tables.', 403);
-        }
-
         $tables = Tables::all();
         return ApiResponse::success('Daftar meja', $tables);
     }
