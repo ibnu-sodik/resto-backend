@@ -13,7 +13,7 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/login",
-     *     tags={"Auth"},
+     *     tags={"AuthController"},
      *     summary="Login user",
      *     description="Login user dengan email dan password untuk mendapatkan API token",
      *     @OA\RequestBody(
@@ -81,7 +81,7 @@ class AuthController extends Controller
     /**
      * @OA\Get(
      *     path="/profile",
-     *     tags={"Auth"},
+     *     tags={"AuthController"},
      *     summary="Get user profile",
      *     description="Mengambil data profile user berdasarkan token login (auth:sanctum required)",
      *     security={{"bearerAuth":{}}},
@@ -108,13 +108,13 @@ class AuthController extends Controller
 
     public function profile(Request $request)
     {
-        return response()->json($request->user());
+        return ApiResponse::success('User Profile', $request->user());
     }
 
     /**
      * @OA\Post(
      *     path="/logout",
-     *     tags={"Auth"},
+     *     tags={"AuthController"},
      *     summary="Logout user",
      *     description="Menghapus token akses user sehingga tidak bisa dipakai lagi (auth:sanctum required)",
      *     security={{"bearerAuth":{}}},
