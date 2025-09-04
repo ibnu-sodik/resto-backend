@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Resto Backend Documentation",
-        "description": "Resto Backend Documentation",
+        "title": "API Resto",
+        "description": "API Resto Backend Documentation",
         "version": "1.0.0"
     },
     "servers": [
@@ -580,6 +580,175 @@
                     },
                     "409": {
                         "description": "Meja sudah terpakai atau sudah ada order open"
+                    },
+                    "422": {
+                        "description": "Validasi gagal"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/orders/{id}/add-items": {
+            "post": {
+                "tags": [
+                    "OrdersController"
+                ],
+                "summary": "Tambah makanan ke order",
+                "description": "Menambahkan makanan/minuman/snack ke order yang masih open. Hanya bisa dilakukan oleh pelayan.",
+                "operationId": "2cfa9dc084056b8de3272841cbea8662",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID order",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "food_id",
+                                    "qty"
+                                ],
+                                "properties": {
+                                    "food_id": {
+                                        "type": "string",
+                                        "format": "uuid",
+                                        "example": "UUID food"
+                                    },
+                                    "qty": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Makanan berhasil ditambahkan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Makanan berhasil ditambahkan"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "order": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "format": "uuid"
+                                                        },
+                                                        "table_id": {
+                                                            "type": "string",
+                                                            "format": "uuid"
+                                                        },
+                                                        "status": {
+                                                            "type": "string",
+                                                            "example": "open"
+                                                        },
+                                                        "total_price": {
+                                                            "type": "number",
+                                                            "example": 45000
+                                                        },
+                                                        "items": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string",
+                                                                        "format": "uuid"
+                                                                    },
+                                                                    "food_id": {
+                                                                        "type": "string",
+                                                                        "format": "uuid"
+                                                                    },
+                                                                    "qty": {
+                                                                        "type": "integer",
+                                                                        "example": 2
+                                                                    },
+                                                                    "price": {
+                                                                        "type": "number",
+                                                                        "example": 22500
+                                                                    },
+                                                                    "subtotal": {
+                                                                        "type": "number",
+                                                                        "example": 45000
+                                                                    },
+                                                                    "food": {
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "string",
+                                                                                "format": "uuid"
+                                                                            },
+                                                                            "name": {
+                                                                                "type": "string",
+                                                                                "example": "Bakso"
+                                                                            },
+                                                                            "price": {
+                                                                                "type": "number",
+                                                                                "example": 22500
+                                                                            },
+                                                                            "category": {
+                                                                                "type": "string",
+                                                                                "example": "food"
+                                                                            },
+                                                                            "is_active": {
+                                                                                "type": "boolean",
+                                                                                "example": true
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Tidak memiliki akses"
+                    },
+                    "404": {
+                        "description": "Order atau makanan tidak ditemukan"
+                    },
+                    "409": {
+                        "description": "Makanan tidak tersedia"
                     },
                     "422": {
                         "description": "Validasi gagal"

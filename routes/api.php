@@ -19,4 +19,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/tables/{id}/reservation', [TablesController::class, 'reservation']);
 
     Route::post('/orders/open', [OrderController::class, 'open']);
+    Route::post('/orders/{id}/add-items', [OrderController::class, 'addFood']);
 });

@@ -6,21 +6,21 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Order extends Model
+class OrderItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'table_id',
-        'order_by',
-        'status',
-        'total_price',
-        'payment_status',
-        'delivery_status',
-    ];
-
-    public $incrementing = false;
+    protected $table = 'order_items';
     protected $keyType = 'string';
+    public $incrementing = false;
+
+    protected $fillable = [
+        'order_id',
+        'food_id',
+        'qty',
+        'price',
+        'subtotal',
+    ];
 
     protected static function boot()
     {
@@ -32,13 +32,13 @@ class Order extends Model
         });
     }
 
-    public function table()
+    public function food()
     {
-        return $this->belongsTo(Tables::class, 'table_id');
+        return $this->belongsTo(Food::class);
     }
 
-    public function items()
+    public function order()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->belongsTo(Order::class);
     }
 }
