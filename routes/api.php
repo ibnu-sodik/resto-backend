@@ -24,4 +24,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/orders/{orderId}/items/{itemId}', [OrderController::class, 'updateFood']);
     Route::delete('/orders/{orderId}/items/{itemId}', [OrderController::class, 'deleteFood']);
     Route::post('/orders/{id}/close', [OrderController::class, 'close']);
+    Route::get('/orders/{id}/receipt', [OrderController::class, 'generateReceipt']);
 });

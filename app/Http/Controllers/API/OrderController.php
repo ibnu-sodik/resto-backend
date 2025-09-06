@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Tables;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
@@ -492,5 +493,59 @@ class OrderController extends Controller
             'reserved_by' => null
         ]);
         return ApiResponse::success('Order berhasil ditutup.', $order, 200);
+    }
+
+    /**
+     * Generate PDF Receipt
+     * @OA\Get(
+     *      path="/orders/{id}/receipt",
+     *      tags={"OrdersController"},
+     *      summary="Generate PDF receipt untuk order",
+     *      description="Menghasilkan file PDF struk order. Hanya bisa diakses oleh kasir.",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="UUID Order",
+     *          @OA\Schema(type="string", format="uuid")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="PDF berhasil digenerate dan dikirim sebagai file download",
+     *          @OA\MediaType(
+     *              mediaType="application/pdf"
+     *          )
+     *      ),
+     *      @OA\Response(response=404, description="Order tidak ditemukan"),
+     *      @OA\Response(response=401, description="Unauthenticated"),
+     *      @OA\Response(response=403, description="User tidak memiliki akses"),
+     *      @OA\Response(response=409, description="Order belum selesai"),
+     * )
+     */
+
+    public function generateReceipt(Request $request, string $id)
+    {
+        $user = $request->user();
+        if (!in_array($user->role, ['kasir'])) {
+            return ApiResponse::error('Anda tidak memiliki akses.', 403);
+        }
+
+        $order = Order::with(['table', 'items.food'])->find($id);
+
+        if (!$order) {
+            return ApiResponse::error('Order tidak ditemukan', 404);
+        }
+        if ($order->status === 'open') {
+            return ApiResponse::error('Order belum selesai', 409);
+        }
+
+        $pdf = Pdf::loadView('orders.receipt', compact('order'));
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'receipt-' . $order->id . '.pdf', [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }
