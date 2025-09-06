@@ -484,10 +484,13 @@ class OrderController extends Controller
         $order->update([
             'status' => 'closed',
             'payment_status' => 'paid',
-            'delivery_status' => 'delivered'
+            'delivery_status' => 'delivered',
         ]);
 
-        $table->update(['status' => 'available']);
+        $table->update([
+            'status' => 'available',
+            'reserved_by' => null
+        ]);
         return ApiResponse::success('Order berhasil ditutup.', $order, 200);
     }
 }
