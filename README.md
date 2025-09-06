@@ -77,6 +77,15 @@ php artisan serve
 -   Role: **pelayan, kasir**
 -   Pastikan user login dengan role yang sesuai saat mencoba endpoint tertentu.
 
+## Credential Login
+
+Gunakan akun berikut untuk mencoba aplikasi via Swagger/Postman:
+
+| Role    | Email              | Password    |
+| ------- | ------------------ | ----------- |
+| Pelayan | pelayan@email.test | passPelayan |
+| Kasir   | kasir@email.test   | passKasir   |
+
 ## Screenshots
 
 ![Swagger UI](ScreenShots/home.PNG)
