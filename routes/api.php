@@ -18,6 +18,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/tables', TablesController::class)->except(['index']);
     Route::post('/tables/{id}/reservation', [TablesController::class, 'reservation']);
 
+    Route::apiResource('/orders', OrderController::class);
     Route::post('/orders/open', [OrderController::class, 'open']);
     Route::post('/orders/{id}/add-items', [OrderController::class, 'addFood']);
+    Route::put('/orders/{orderId}/items/{itemId}', [OrderController::class, 'updateFood']);
+    Route::delete('/orders/{orderId}/items/{itemId}', [OrderController::class, 'deleteFood']);
+    Route::post('/orders/{id}/close', [OrderController::class, 'close']);
 });

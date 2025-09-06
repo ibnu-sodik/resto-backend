@@ -540,6 +540,276 @@
                 ]
             }
         },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "OrdersController"
+                ],
+                "summary": "Daftar order",
+                "description": "Mengambil daftar semua order beserta informasi meja (code) dan jumlah item di dalamnya",
+                "operationId": "8dde1c1ae8cabae242c1a5be03108d24",
+                "responses": {
+                    "200": {
+                        "description": "Daftar order berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Daftar order"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "format": "uuid",
+                                                        "example": "f05611aa-1923-47e0-bb8b-446315b9c1a3"
+                                                    },
+                                                    "table_id": {
+                                                        "type": "string",
+                                                        "format": "uuid",
+                                                        "example": "212fa4b3-865f-43ed-bcad-fedd1250c033"
+                                                    },
+                                                    "order_by": {
+                                                        "type": "string",
+                                                        "example": "Test Order"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "open"
+                                                    },
+                                                    "payment_status": {
+                                                        "type": "string",
+                                                        "example": "unpaid"
+                                                    },
+                                                    "delivery_status": {
+                                                        "type": "string",
+                                                        "example": "pending"
+                                                    },
+                                                    "total_price": {
+                                                        "type": "string",
+                                                        "example": "148000.00"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-09-04T17:38:19.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-09-04T17:54:22.000000Z"
+                                                    },
+                                                    "items_count": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "table_code": {
+                                                        "type": "string",
+                                                        "example": "T01"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "tags": [
+                    "OrdersController"
+                ],
+                "summary": "Detail order",
+                "description": "Menampilkan detail order beserta data meja dan daftar item makanan yang dipesan.",
+                "operationId": "afa7dfe6084274eb77b0dc1215401b30",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID Order",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail order berhasil ditampilkan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Detail order"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "uuid-order"
+                                                },
+                                                "table_id": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "uuid-table"
+                                                },
+                                                "order_by": {
+                                                    "type": "string",
+                                                    "example": "Test Order"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "open"
+                                                },
+                                                "payment_status": {
+                                                    "type": "string",
+                                                    "example": "unpaid"
+                                                },
+                                                "delivery_status": {
+                                                    "type": "string",
+                                                    "example": "pending"
+                                                },
+                                                "total_price": {
+                                                    "type": "string",
+                                                    "example": "148000.00"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-09-04T17:38:19.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-09-04T17:54:22.000000Z"
+                                                },
+                                                "table": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "format": "uuid",
+                                                            "example": "uuid-table"
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "T01"
+                                                        },
+                                                        "status": {
+                                                            "type": "string",
+                                                            "example": "occupied"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "items": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string",
+                                                                "format": "uuid",
+                                                                "example": "uuid-order-item"
+                                                            },
+                                                            "food_id": {
+                                                                "type": "string",
+                                                                "format": "uuid",
+                                                                "example": "uuid-food"
+                                                            },
+                                                            "qty": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "price": {
+                                                                "type": "string",
+                                                                "example": "25000.00"
+                                                            },
+                                                            "subtotal": {
+                                                                "type": "string",
+                                                                "example": "50000.00"
+                                                            },
+                                                            "food": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string",
+                                                                        "format": "uuid",
+                                                                        "example": "uuid-food"
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string",
+                                                                        "example": "Bakso"
+                                                                    },
+                                                                    "category": {
+                                                                        "type": "string",
+                                                                        "example": "food"
+                                                                    },
+                                                                    "price": {
+                                                                        "type": "string",
+                                                                        "example": "25000.00"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Order tidak ditemukan"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/orders/open": {
             "post": {
                 "tags": [
@@ -597,7 +867,7 @@
                 "tags": [
                     "OrdersController"
                 ],
-                "summary": "Tambah makanan ke order",
+                "summary": "Tambah item ke order",
                 "description": "Menambahkan makanan/minuman/snack ke order yang masih open. Hanya bisa dilakukan oleh pelayan.",
                 "operationId": "2cfa9dc084056b8de3272841cbea8662",
                 "parameters": [
@@ -639,7 +909,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Makanan berhasil ditambahkan",
+                        "description": "Item berhasil ditambahkan",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -654,7 +924,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Makanan berhasil ditambahkan"
+                                            "example": "Item berhasil ditambahkan"
                                         },
                                         "data": {
                                             "properties": {
@@ -745,13 +1015,238 @@
                         "description": "Tidak memiliki akses"
                     },
                     "404": {
-                        "description": "Order atau makanan tidak ditemukan"
+                        "description": "Order atau item tidak ditemukan"
                     },
                     "409": {
-                        "description": "Makanan tidak tersedia"
+                        "description": "Item tidak tersedia"
                     },
                     "422": {
                         "description": "Validasi gagal"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/orders/{orderId}/items/{itemId}": {
+            "put": {
+                "tags": [
+                    "OrdersController"
+                ],
+                "summary": "Update jumlah item di order",
+                "description": "Mengubah jumlah (qty) item yang sudah ada di dalam order. Hanya bisa dilakukan oleh pelayan dan ketika order masih open.",
+                "operationId": "60c9bb3e24a04abce5a3ca79c1ef048a",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "description": "ID Order",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "itemId",
+                        "in": "path",
+                        "description": "ID Item di order_items",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "qty"
+                                ],
+                                "properties": {
+                                    "qty": {
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item order berhasil diperbarui"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Tidak ada akses"
+                    },
+                    "404": {
+                        "description": "Order atau item tidak ditemukan"
+                    },
+                    "422": {
+                        "description": "Validasi gagal"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "OrdersController"
+                ],
+                "summary": "Hapus item dari order",
+                "description": "Menghapus item dari order. Hanya bisa dilakukan oleh pelayan dan ketika order masih open.",
+                "operationId": "41a7e48ced941d36762f80004480b96a",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "description": "ID Order",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "itemId",
+                        "in": "path",
+                        "description": "ID Item di order_items",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item order berhasil dihapus"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Tidak ada akses"
+                    },
+                    "404": {
+                        "description": "Order atau item tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/orders/{id}/close": {
+            "post": {
+                "tags": [
+                    "OrdersController"
+                ],
+                "summary": "Menutup order",
+                "description": "Menutup order yang masih open, sekaligus menandai order sudah dibayar dan delivered. Hanya bisa dilakukan oleh pelayan atau kasir.",
+                "operationId": "0158441723626115b3d893d137cdc125",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID Order",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order berhasil ditutup",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Order berhasil ditutup."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "uuid-order"
+                                                },
+                                                "table_id": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "uuid-table"
+                                                },
+                                                "order_by": {
+                                                    "type": "string",
+                                                    "example": "Test Order"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "closed"
+                                                },
+                                                "payment_status": {
+                                                    "type": "string",
+                                                    "example": "paid"
+                                                },
+                                                "delivery_status": {
+                                                    "type": "string",
+                                                    "example": "delivered"
+                                                },
+                                                "total_price": {
+                                                    "type": "string",
+                                                    "example": "148000.00"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-09-04T17:38:19.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-09-04T17:54:22.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Order tidak ditemukan atau sudah ditutup"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "User tidak memiliki akses"
                     }
                 },
                 "security": [

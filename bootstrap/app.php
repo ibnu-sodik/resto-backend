@@ -40,7 +40,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     500,
                     [
                         'exception' => get_class($e),
-                        'trace'     => $e->getTrace()
+                        // 'trace'     => $e->getTrace()
                     ]
                 );
             }
