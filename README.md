@@ -17,7 +17,7 @@ Dibangun menggunakan **Laravel 12**, **Sanctum** untuk autentikasi API, dan **Sw
 
 ---
 
-## Prerequisites
+## Requirements
 
 -   PHP 8.1+
 -   Composer
@@ -44,19 +44,13 @@ composer install
 **3. Setup Environment**
 
 ```
-APP_URL=http://localhost
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=resto-api-test
-DB_USERNAME=root
-DB_PASSWORD=
+cp .env.example .env
 ```
 
-**4. Migrate Database**
+**4. Generate app key & migrate database**
 
 ```
+php artisan key:generate
 php artisan migrate
 php artisan db:seed
 ```
@@ -82,3 +76,8 @@ php artisan serve
 -   Semua tabel menggunakan **UUID** sebagai **primary key**.
 -   Role: **pelayan, kasir**
 -   Pastikan user login dengan role yang sesuai saat mencoba endpoint tertentu.
+
+## Screenshots
+
+![Swagger UI](ScreenShots/home.PNG)
+![Test on Postman](ScreenShots/test-postman.PNG)
